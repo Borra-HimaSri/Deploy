@@ -9,7 +9,6 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
 if (isset($_POST['submit'])) {
-
     $name = $_POST['name'];
     $email = $_POST['email'];
     $subject = $_POST['subject'];
@@ -20,12 +19,12 @@ if (isset($_POST['submit'])) {
     try {
         // Server settings
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'hima2005sri@gmail.com';
-        $mail->Password   = 'qihkklbetvsouemz'; // Use a secure method to handle sensitive information
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'hima2005sri@gmail.com';
+        $mail->Password = 'qihkklbetvsouemz'; // Use a secure method to handle sensitive information
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+        $mail->Port = 587;
 
         // Recipients
         $mail->setFrom('hima2005sri@gmail.com', 'Hima');
@@ -34,23 +33,21 @@ if (isset($_POST['submit'])) {
         // Content
         $mail->isHTML(true);
         $mail->Subject = 'New enquiry';
-        $mail->Body    = "<h3>This is the HTML message body <b>in bold!</h3></b>
-                          <h4>Name: $name</h4>
-                          <h4>Email: $email</h4> 
-                          <h4>Subject: $subject</h4> 
-                          <h4>Message: $message</h4>";
+        $mail->Body = "<h3>This is the HTML message body <b>in bold!</h3></b>
+                       <h4>Name: $name</h4>
+                       <h4>Email: $email</h4>
+                       <h4>Subject: $subject</h4>
+                       <h4>Message: $message</h4>";
 
         if ($mail->send()) {
-            $_SESSION['status'] = "Thank you! Your message has been sent.";
-            header("Location: contact.php"); // Redirect to index page or any other page
+            echo "<script>alert('Thank you! Your message has been sent.'); window.location.href='contact.php';</script>";
             exit();
         } else {
-            $_SESSION['status'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-            header("Location: contact.php");
+            echo "<script>alert('Message could not be sent. Mailer Error: {$mail->ErrorInfo}'); window.location.href='contact.php';</script>";
             exit();
         }
     } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        echo "<script>alert('Message could not be sent. Mailer Error: {$mail->ErrorInfo}'); window.location.href='contact.php';</script>";
     }
 } else {
     exit();

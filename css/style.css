@@ -164,8 +164,10 @@ h6,
 
 
 /*** Navbar Start ***/
+
 .navbar {
     border-bottom: 1px solid rgba(255, 255, 255, .1);
+    
 }
 
 .navbar .navbar-nav .nav-link {
@@ -174,7 +176,7 @@ h6,
     font-weight: 600;
     transition: .5s;
 }
-
+ 
 .navbar .navbar-nav .nav-link:hover,
 .navbar .navbar-nav .nav-link.active,
 .fixed-top.bg-white .navbar .navbar-nav .nav-link:hover,
@@ -223,18 +225,56 @@ h6,
 #searchModal .modal-content {
     background: rgba(255, 255, 255, .8);
 }
+
 /*** Navbar End ***/
 
-
-/*** Hero Header ***/
-.hero-header,
-.page-header {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.05)), url(../img/hero-img.jpg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
+/*** Hero Header start ***/
+/* Define the angle property */
+@property --angle {
+    syntax: '<angle>';
+    inherits: true;
+    initial-value: 0deg;
 }
-/*** Hero Header ***/
+
+/* Animation for the clock wipe transition */
+@keyframes clockWipe {
+    from { --angle: 0deg; }
+    to { --angle: 360deg; }
+}
+
+/* Hero Section Styling */
+.hero-header {
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.05)), url(../img/hero-img.png) center center / cover no-repeat;
+    padding: 50px 0;
+    overflow: hidden;
+}
+
+/* Overlay to create clock wipe effect */
+.hero-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.05)), url(../img/1.png) center center / cover no-repeat;
+    -webkit-mask-image: conic-gradient(#fff 0deg, #fff var(--angle), transparent var(--angle), transparent 360deg);
+    mask-image: conic-gradient(#fff 0deg, #fff var(--angle), transparent var(--angle), transparent 360deg);
+    transition: opacity 2s ease-in-out;
+    opacity: 0; /* Start with the overlay hidden */
+}
+
+/* Hover animation to trigger the clock wipe */
+.hero-header:hover::before {
+    animation: clockWipe 2s linear forwards;
+    opacity: 1; /* Show overlay on hover */
+}
+
+/* Ensure the content stays on top */
+.hero-header .container {
+    position: relative; /* Ensure content is positioned above overlay */
+    z-index: 2; /* Higher z-index for content */
+}
+
+/*** Hero Header end ***/
 
 
 /*** About Start ***/
@@ -242,7 +282,7 @@ h6,
     position: relative;
     height: 100%;
     min-height: 400px;
-    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url(../img/about.jpg);
+    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url(../img/galary-4.png);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
